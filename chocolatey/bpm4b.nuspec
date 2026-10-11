@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+  <metadata>
+    <id>bpm4b</id>
+    <version>14.0.0</version>
+    <title>BPM4B</title>
+    <authors>BPM4B contributors</authors>
+    <projectUrl>https://github.com/jdjchelp-jpg/NewBPM4B</projectUrl>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <summary>Audiobook &amp; audio production workspace for Windows.</summary>
+    <description>
+BPM4B is a complete audiobook and audio-production workspace: MP3→M4B,
+single-MP3 chapter manifests, folder→M4B, audio extraction, batch merge,
+format conversion, metadata editing, EPUB creation and a configurable
+document structure engine (delimiter engines).
+
+This package installs the desktop application (NSIS build) and the bpm4b
+command-line tool. Requires ffmpeg on PATH (or set FFMPEG_PATH).
+    </description>
+    <tags>audiobook m4b mp3 epub ffmpeg audio chapters cli</tags>
+    <dependencies>
+      <dependency id="ffmpeg" version="7.0.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="tools\**" target="tools" />
+  </files>
+</package>

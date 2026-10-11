@@ -1,0 +1,121 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+:root, [data-theme='light'] {
+  --background: 0 0% 100%; --foreground: 222 47% 11%;
+  --card: 0 0% 100%; --card-foreground: 222 47% 11%;
+  --primary: 221 83% 53%; --primary-foreground: 0 0% 100%;
+  --secondary: 210 40% 96%; --secondary-foreground: 222 47% 11%;
+  --muted: 210 40% 96%; --muted-foreground: 215 16% 47%;
+  --accent: 210 40% 94%; --accent-foreground: 222 47% 11%;
+  --border: 214 32% 91%; --input: 214 32% 91%; --ring: 221 83% 53%;
+  --destructive: 0 84% 60%; --destructive-foreground: 0 0% 100%;
+  --radius: 0.75rem;
+}
+[data-theme='dark'] {
+  --background: 222 47% 7%; --foreground: 210 40% 96%;
+  --card: 222 47% 10%; --card-foreground: 210 40% 96%;
+  --primary: 217 91% 60%; --primary-foreground: 0 0% 100%;
+  --secondary: 217 33% 15%; --secondary-foreground: 210 40% 96%;
+  --muted: 217 33% 15%; --muted-foreground: 215 20% 65%;
+  --accent: 217 33% 17%; --accent-foreground: 210 40% 96%;
+  --border: 217 33% 18%; --input: 217 33% 18%; --ring: 217 91% 60%;
+  --destructive: 0 63% 45%; --destructive-foreground: 0 0% 100%;
+}
+[data-theme='green'] {
+  --background: 140 30% 97%; --foreground: 140 40% 10%;
+  --card: 0 0% 100%; --card-foreground: 140 40% 10%;
+  --primary: 142 71% 35%; --primary-foreground: 0 0% 100%;
+  --secondary: 140 25% 90%; --secondary-foreground: 140 40% 12%;
+  --muted: 140 25% 90%; --muted-foreground: 140 15% 38%;
+  --accent: 142 60% 88%; --accent-foreground: 140 40% 12%;
+  --border: 140 20% 82%; --input: 140 20% 82%; --ring: 142 71% 35%;
+  --destructive: 0 84% 60%; --destructive-foreground: 0 0% 100%;
+}
+[data-theme='blue'] {
+  --background: 217 40% 98%; --foreground: 222 47% 11%;
+  --card: 0 0% 100%; --card-foreground: 222 47% 11%;
+  --primary: 217 91% 50%; --primary-foreground: 0 0% 100%;
+  --secondary: 214 60% 94%; --secondary-foreground: 222 47% 12%;
+  --muted: 214 60% 94%; --muted-foreground: 215 20% 42%;
+  --accent: 213 90% 88%; --accent-foreground: 222 47% 12%;
+  --border: 214 40% 86%; --input: 214 40% 86%; --ring: 217 91% 50%;
+  --destructive: 0 84% 60%; --destructive-foreground: 0 0% 100%;
+}
+[data-theme='red'] {
+  --background: 0 30% 98%; --foreground: 0 45% 12%;
+  --card: 0 0% 100%; --card-foreground: 0 45% 12%;
+  --primary: 0 72% 51%; --primary-foreground: 0 0% 100%;
+  --secondary: 0 50% 94%; --secondary-foreground: 0 45% 14%;
+  --muted: 0 50% 94%; --muted-foreground: 0 20% 42%;
+  --accent: 0 80% 90%; --accent-foreground: 0 45% 14%;
+  --border: 0 35% 86%; --input: 0 35% 86%; --ring: 0 72% 51%;
+  --destructive: 0 84% 40%; --destructive-foreground: 0 0% 100%;
+}
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-primary: hsl(var(--primary));
+  --color-secondary: hsl(var(--secondary));
+  --color-muted: hsl(var(--muted));
+  --color-accent: hsl(var(--accent));
+  --color-border: hsl(var(--border));
+  --color-meter-ok: var(--meter-ok);
+  --color-meter-warn: var(--meter-warn);
+  --color-meter-clip: var(--meter-clip);
+  --color-channel-mute: var(--channel-mute);
+  --color-channel-solo: var(--channel-solo);
+  --color-channel-monitor: var(--channel-monitor);
+  --color-meter-ok-foreground: var(--meter-ok-foreground);
+  --color-meter-warn-foreground: var(--meter-warn-foreground);
+  --color-meter-clip-foreground: var(--meter-clip-foreground);
+  --color-channel-mute-foreground: var(--channel-mute-foreground);
+  --color-channel-solo-foreground: var(--channel-solo-foreground);
+  --color-channel-monitor-foreground: var(--channel-monitor-foreground);
+  --channel-monitor-foreground: var(--channel-monitor-foreground);
+  --channel-solo-foreground: var(--channel-solo-foreground);
+  --channel-mute-foreground: var(--channel-mute-foreground);
+  --meter-clip-foreground: var(--meter-clip-foreground);
+  --meter-warn-foreground: var(--meter-warn-foreground);
+  --meter-ok-foreground: var(--meter-ok-foreground);
+  --channel-mute: var(--channel-mute);
+  --meter-clip: var(--meter-clip);
+}
+body { background: hsl(var(--background)); color: hsl(var(--foreground)); font-family: Inter, system-ui, sans-serif; }
+.card { background: hsl(var(--card)); color: hsl(var(--card-foreground)); border: 1px solid hsl(var(--border)); border-radius: var(--radius); box-shadow: 0 1px 2px rgb(0 0 0 / 0.06); }
+:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+.waveform-bar { min-width: 3px; border-radius: 2px; }
+
+:root {
+  --meter-ok: oklch(0.696 0.17 162.48);
+  --meter-warn: oklch(0.795 0.184 86.047);
+  --meter-clip: var(--destructive);
+  --channel-mute: var(--destructive);
+  --channel-solo: oklch(0.795 0.184 86.047);
+  --channel-monitor: oklch(0.623 0.214 259.815);
+  --meter-ok-foreground: color-mix(in oklch, var(--meter-ok), black 40%);
+  --meter-warn-foreground: color-mix(in oklch, var(--meter-warn), black 40%);
+  --meter-clip-foreground: color-mix(in oklch, var(--meter-clip), black 40%);
+  --channel-mute-foreground: color-mix(in oklch, var(--channel-mute), black 40%);
+  --channel-solo-foreground: color-mix(in oklch, var(--channel-solo), black 40%);
+  --channel-monitor-foreground: color-mix(in oklch, var(--channel-monitor), black 40%);
+}
+
+.dark {
+  --meter-ok: oklch(0.765 0.177 163.223);
+  --meter-warn: oklch(0.852 0.199 91.936);
+  --meter-clip: var(--destructive);
+  --channel-mute: var(--destructive);
+  --channel-solo: oklch(0.852 0.199 91.936);
+  --channel-monitor: oklch(0.707 0.165 254.624);
+  --meter-ok-foreground: var(--meter-ok);
+  --meter-warn-foreground: var(--meter-warn);
+  --meter-clip-foreground: var(--meter-clip);
+  --channel-mute-foreground: var(--channel-mute);
+  --channel-solo-foreground: var(--channel-solo);
+  --channel-monitor-foreground: var(--channel-monitor);
+}
+

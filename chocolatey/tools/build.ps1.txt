@@ -1,0 +1,6 @@
+@echo off
+REM BPM4B Chocolatey package build (run from repo root)
+cd /d "%~dp0"
+choco pack bpm4b.nuspec --version %1
+echo.
+echo Push with: choco push bpm4b.%1.nupkg --source https://push.chocolatey.org/

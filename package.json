@@ -1,0 +1,95 @@
+{
+  "name": "bpm4b",
+  "version": "14.0.0",
+  "description": "BPM4B — complete ground-up audiobook & audio production workspace (BPM4B 1.0 foundation)",
+  "main": "dist-electron/main.js",
+  "bin": {
+    "bpm4b": "./src-cli/bpm4b-launcher.mjs"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run build:renderer && npm run build:electron && electron-builder",
+    "build:renderer": "vite build",
+    "build:electron": "tsc -p tsconfig.electron.json",
+    "prestart": "npm run build:renderer && npm run build:electron",
+    "pre_electron:dev": "npm run build:electron",
+    "electron:dev": "concurrently -k \"vite --port 5173 --strictPort\" \"wait-on tcp:127.0.0.1:5173 && electron .\"",
+    "start": "electron .",
+    "cli": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types src-cli/bpm4b.ts",
+    "test:cli": "node src-cli/smoke-test.mjs",
+    "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types --test electron/ipc/structure.test.ts",
+    "typecheck:renderer": "tsc -p tsconfig.json --noEmit",
+    "test:all": "npm test && npm run test:cli && npm run typecheck:renderer && npm run build:renderer && npm run build:electron",
+    "audit": "npm audit",
+    "audit:prod": "npm audit --omit=dev"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.8.0",
+    "@ffmpeg/core": "^0.12.10",
+    "@ffmpeg/ffmpeg": "^0.12.15",
+    "@radix-ui/react-dialog": "^1.1.2",
+    "@radix-ui/react-dropdown-menu": "^2.1.2",
+    "@radix-ui/react-progress": "^1.1.0",
+    "@radix-ui/react-slider": "^1.2.1",
+    "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-tabs": "^1.1.1",
+    "@radix-ui/react-toast": "^1.2.2",
+    "@radix-ui/react-tooltip": "^1.1.4",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "cn": "^0.4.0",
+    "commander": "^12.1.0",
+    "cuelume": "^0.2.4",
+    "electron-store": "^10.0.0",
+    "lucide-react": "^0.454.0",
+    "music-metadata": "^11.7.1",
+    "radix-ui": "^1.6.7",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^2.5.4",
+    "zustand": "^5.0.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^5.0.0",
+    "concurrently": "^9.0.1",
+    "electron": "^44.5.1",
+    "electron-builder": "^27.0.0-alpha.3",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.6.3",
+    "vite": "^7.1.9",
+    "wait-on": "^7.2.0"
+  },
+  "build": {
+    "appId": "com.bpm4b.app",
+    "productName": "BPM4B",
+    "directories": {
+      "buildResources": "build-resources"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "package.json"
+    ],
+    "win": {
+      "icon": "build-resources/icon.ico",
+      "target": [
+        "nsis"
+      ]
+    },
+    "linux": {
+      "icon": "build-resources/icon.png",
+      "target": [
+        "AppImage"
+      ]
+    },
+    "mac": {
+      "icon": "build-resources/icon.icns",
+      "target": [
+        "dmg"
+      ]
+    }
+  }
+}

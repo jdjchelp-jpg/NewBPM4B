@@ -1,0 +1,14 @@
+{
+  "name": "bpm4b",
+  "version": "14.0.0",
+  "description": "BPM4B audiobook and audio production CLI",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/jdjchelp-jpg/NewBPM4B.git" },
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "bin": { "bpm4b": "./dist/launcher.mjs" },
+  "files": ["dist/*.js", "dist/*.mjs", "README.md", "LICENSE"],
+  "scripts": { "build": "node build.mjs" },
+  "dependencies": { "commander": "^12.1.0" },
+  "publishConfig": { "access": "public" }
+}
