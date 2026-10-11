@@ -341,7 +341,7 @@ export async function writeChaptersInBrowser(options: {
     const rows = ordered.map((chapter, index) => `[CHAPTER]\nTIMEBASE=1/1000\nSTART=${Math.round(chapter.start * 1000)}\nEND=${Math.round((ordered[index + 1]?.start ?? chapter.start + 3600) * 1000)}\ntitle=${ffmetadataEscape(chapter.title)}\n`);
     await ffmpeg.writeFile(metadata, new TextEncoder().encode(`;FFMETADATA1\n${rows.join('')}`));
     ffmpegLog = '';
-    const exitCode = await ffmpeg.exec(['-i', input, '-i', metadata, '-map', '0', '-map_metadata', '1', '-map_chapters', '1', '-c', 'copy', '-y', output]);
+    const exitCode = await ffmpeg.exec(['-i', input, '-i', metadata, '-map', '0', '-map_metadata', '0', '-map_chapters', '1', '-c', 'copy', '-y', output]);
     if (exitCode !== 0) throw new Error(`Couldn't write chapters to this format. ${ffmpegLog.slice(-1200)}`);
     const data = await ffmpeg.readFile(output);
     if (typeof data === 'string') throw new Error('FFmpeg returned invalid output.');
