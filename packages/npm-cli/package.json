@@ -2,6 +2,7 @@
   "name": "bpm4b",
   "version": "14.0.0",
   "description": "BPM4B audiobook and audio production CLI",
+  "author": "jdjchelp-jpg",
   "license": "MIT",
   "repository": { "type": "git", "url": "https://github.com/jdjchelp-jpg/NewBPM4B.git" },
   "type": "module",
