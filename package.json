@@ -1,7 +1,7 @@
 {
   "name": "bpm4b",
   "version": "14.0.0",
-  "description": "BPM4B — complete ground-up audiobook & audio production workspace (BPM4B 1.0 foundation)",
+  "description": "BPM4B audiobook and audio production workspace",
   "main": "dist-electron/main.js",
   "bin": {
     "bpm4b": "./src-cli/bpm4b-launcher.mjs"

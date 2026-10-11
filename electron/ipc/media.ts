@@ -212,8 +212,14 @@ export function registerMediaHandlers() {
     } catch (err) { friendlyError(err, a.inputs?.[0]); }
   });
 
-  ipcMain.handle('convert', async (_e, a: { input: string; output: string }) => {
-    try { await runFfmpeg(['-i', a.input, '-y', a.output]); return { ok: true }; }
+  ipcMain.handle('convert', async (_e, a: { input: string; output: string; sampleRate?: string; channels?: string }) => {
+    try {
+      const args = ['-i', a.input];
+      if (a.sampleRate) args.push('-ar', a.sampleRate);
+      if (a.channels) args.push('-ac', a.channels);
+      args.push('-y', a.output);
+      await runFfmpeg(args); return { ok: true };
+    }
     catch (err) { friendlyError(err, a.input); }
   });
 
@@ -254,6 +260,21 @@ export function registerMediaHandlers() {
       }
       return out.length ? { chapters: out } : { chapters: [], note: 'No embedded chapters found in this file.' };
     } catch (e) { return { chapters: [], note: `Couldn't read chapters: ${e instanceof Error ? e.message : String(e)}` }; }
+  });
+
+  ipcMain.handle('write-chapters', async (_e, a: { file: string; output: string; chapters: { start: number; title: string }[] }) => {
+    try {
+      if (!a.chapters.length || a.chapters[0]!.start !== 0) throw new Error('The first chapter must start at 00:00:00.');
+      const ordered = [...a.chapters].sort((x, y) => x.start - y.start);
+      if (ordered.some((chapter, index) => !Number.isFinite(chapter.start) || (index > 0 && chapter.start <= ordered[index - 1]!.start))) throw new Error('Chapter start times must be unique and increasing.');
+      const metadata = path.join(os.tmpdir(), `bpm4b-chapters-${Date.now()}.txt`);
+      const escape = (value: string) => value.replace(/\\/g, '\\\\').replace(/=/g, '\\=').replace(/;/g, '\\;').replace(/#/g, '\\#').replace(/\r?\n/g, ' ');
+      const lines = ordered.map((chapter, index) => `[CHAPTER]\nTIMEBASE=1/1000\nSTART=${Math.round(chapter.start * 1000)}\nEND=${Math.round((ordered[index + 1]?.start ?? chapter.start + 3600) * 1000)}\ntitle=${escape(chapter.title)}\n`);
+      fs.writeFileSync(metadata, `;FFMETADATA1\n${lines.join('')}`, 'utf8');
+      try { await runFfmpeg(['-i', a.file, '-i', metadata, '-map', '0', '-map_metadata', '0', '-map_chapters', '1', '-c', 'copy', '-y', a.output]); }
+      finally { try { fs.unlinkSync(metadata); } catch {} }
+      return { ok: true, output: a.output };
+    } catch (err) { friendlyError(err, a.file); }
   });
 
   ipcMain.handle('extract-audio', async (_e, a: { input: string; output: string; args?: string[]; bitrate?: string }) => {

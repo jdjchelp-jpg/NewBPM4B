@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Card, Button, Input } from '@/components/ui';
 import { sfx } from '@/lib/sound';
 import { pickImage, pickLocalFiles, type LocalSelection } from '@/lib/files';
+import { readAudioInBrowser, writeAudioMetadataInBrowser } from '@/lib/m4b-browser';
 
 const FIELDS: { key: string; label: string; ph?: string }[] = [
   { key: 'title', label: 'Title' }, { key: 'album', label: 'Album' },
@@ -16,27 +17,28 @@ const FIELDS: { key: string; label: string; ph?: string }[] = [
 export default function Metadata() {
   const [file, setFile] = useState<LocalSelection | null>(null);
   const [meta, setMeta] = useState<Record<string, string>>({});
-  const [cover, setCover] = useState('');
+  const [cover, setCover] = useState<LocalSelection | null>(null);
   const [msg, setMsg] = useState('');
   const [err, setErr] = useState('');
   const pick = async () => {
     const r = await pickLocalFiles('audio', false);
     if (!r[0]) return;
     setFile(r[0]); setErr(''); setMsg('');
-    if (r[0].file && !(window as any).bpm4b) { setMsg('Audio imported and ready. Reading and writing metadata requires BPM4B desktop.'); return; }
-    const res = await (window as any).bpm4b?.readMeta?.({ file: r[0].path });
+    const bridge = (window as any).bpm4b;
+    const res = bridge ? await bridge.readMeta?.({ file: r[0].path }) : await readAudioInBrowser(r[0]);
     const c = res?.common ?? {};
     setMeta(Object.fromEntries(FIELDS.map((f) => [f.key, String(c[f.key] ?? '')])));
     setMsg(res?.format ? `Loaded ${r[0].name} — ${res.format.codec ?? 'audio'}${res.format.duration ? `, ${Math.round(res.format.duration / 60)} min` : ''}` : (res?.note ?? ''));
     sfx.success(false);
   };
-  const pickCover = async () => { const r = await pickImage(); if (r) { setCover(r.path ?? r.file?.name ?? ''); sfx.success(false); } };
+  const pickCover = async () => { const r = await pickImage(); if (r) { setCover(r); sfx.success(false); } };
   const save = async () => {
     setErr('');
     try {
-      if (file?.file && !(window as any).bpm4b) throw new Error('Writing metadata requires BPM4B desktop.');
-      await (window as any).bpm4b?.writeMeta?.({ file: file?.path, meta, cover, title: meta.title, author: meta.artist });
-      setMsg('Metadata written.'); sfx.success(true);
+      const bridge = (window as any).bpm4b;
+      if (bridge) await bridge.writeMeta?.({ file: file?.path, meta, cover: cover?.path, title: meta.title, author: meta.artist });
+      else await writeAudioMetadataInBrowser({ file: file!, meta, cover });
+      setMsg(bridge ? 'Metadata written to the selected file.' : 'Tagged copy downloaded.'); sfx.success(true);
     } catch (e) { setErr(e instanceof Error ? e.message : String(e)); sfx.error(); }
   };
   return (
@@ -48,7 +50,7 @@ export default function Metadata() {
           <Button onClick={pick}>{file ? 'Change file' : 'Open audio'}</Button>
           {file && <><span className="truncate text-sm" title={file.name}>{file.name}</span>{file.url && <audio controls preload="metadata" src={file.url} aria-label="Preview selected audio" className="h-9 max-w-full" />}</>}
           <Button variant="outline" onClick={pickCover}>{cover ? 'Change cover' : 'Choose cover'}</Button>
-          {cover && <span className="truncate text-xs text-muted-foreground" title={cover}>{cover.split(/[\\/]/).pop()}</span>}
+          {cover && <span className="truncate text-xs text-muted-foreground" title={cover.name}>{cover.name}</span>}
           <Button variant="secondary" onClick={save} disabled={!file}>Save metadata</Button>
         </div>
         {msg && !err && <p role="status" className="mt-2 text-sm text-muted-foreground">{msg}</p>}

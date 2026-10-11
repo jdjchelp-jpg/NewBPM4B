@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Card, Button, Progress } from '@/components/ui';
 import { sfx } from '@/lib/sound';
 import { pickLocalFiles, type LocalSelection } from '@/lib/files';
+import { convertAudioInBrowser } from '@/lib/m4b-browser';
 
 const AUDIO_OUT = ['mp3', 'm4a', 'aac', 'flac', 'wav', 'ogg', 'opus', 'alac'];
 const VIDEO_OUT = ['mp4', 'mkv', 'webm', 'mov', 'gif'];
@@ -18,11 +19,29 @@ export default function Format() {
   useEffect(() => { (window as any).bpm4b?.onProgress?.((p: number) => setProg(p)); }, []);
   const pick = async () => { const r = await pickLocalFiles('media', false); if (r[0]) { setFile(r[0]); sfx.success(false); } };
   const run = async () => {
-    if (file?.file && !(window as any).bpm4b) { setErr('Media conversion requires BPM4B desktop. The selected file is imported and ready.'); return; }
-    const target = await (window as any).bpm4b?.pickSave?.({ defaultPath: `converted.${out}` });
-    if (!target) return;
     setProg(1); setErr(''); setBusy(true); sfx.loading();
-    try { await (window as any).bpm4b?.convert?.({ input: file?.path, output: target, sampleRate: sr, channels: ch }); setProg(100); sfx.success(true); }
+    try {
+      const bridge = (window as any).bpm4b;
+      if (bridge) {
+        const target = await bridge.pickSave?.({ defaultPath: `converted.${out}` });
+        if (!target) return;
+        await bridge.convert?.({ input: file?.path, output: target, sampleRate: sr, channels: ch });
+      } else {
+        const codecs: Record<string, string[]> = {
+          mp3: ['-c:a', 'libmp3lame', '-b:a', '192k'], m4a: ['-c:a', 'aac', '-b:a', '192k'],
+          aac: ['-c:a', 'aac', '-b:a', '192k'], flac: ['-c:a', 'flac'], wav: ['-c:a', 'pcm_s16le'],
+          ogg: ['-c:a', 'libvorbis', '-q:a', '5'], opus: ['-c:a', 'libopus', '-b:a', '96k'],
+          alac: ['-c:a', 'alac', '-f', 'ipod'], mp4: ['-c:v', 'libx264', '-c:a', 'aac'],
+          mkv: ['-c:v', 'ffv1', '-c:a', 'flac'], webm: ['-c:v', 'libvpx', '-c:a', 'libopus'],
+          mov: ['-c:v', 'mpeg4', '-c:a', 'aac'], gif: ['-vf', 'fps=10,scale=480:-1:flags=lanczos', '-loop', '0'],
+        };
+        const args = [...(codecs[out] ?? ['-c:a', 'copy'])];
+        if (sr) args.push('-ar', sr);
+        if (ch) args.push('-ac', ch);
+        await convertAudioInBrowser({ input: file!, outputExtension: out, args, task: 'Convert media', includeVideo: VIDEO_OUT.includes(out), onStatus: (status) => setProg(status.progress) });
+      }
+      setProg(100); sfx.success(true);
+    }
     catch (e) { setErr(e instanceof Error ? e.message : String(e)); sfx.error(); }
     finally { setBusy(false); }
   };

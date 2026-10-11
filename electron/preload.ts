@@ -12,6 +12,7 @@ contextBridge.exposeInMainWorld('bpm4b', {
   docToEpub: (a: any) => ipcRenderer.invoke('doc-to-epub', a),
   scanFolder: (a: { folder: string; includeCovers?: boolean; includeDocs?: boolean }) => ipcRenderer.invoke('scan-folder', a),
   readChapters: (a: any) => ipcRenderer.invoke('read-chapters', a),
+  writeChapters: (a: any) => ipcRenderer.invoke('write-chapters', a),
   extractAudio: (a: any) => ipcRenderer.invoke('extract-audio', a),
   mergeAudio: (a: any) => ipcRenderer.invoke('merge-audio', a),
   writeMeta: (a: any) => ipcRenderer.invoke('write-meta', a),

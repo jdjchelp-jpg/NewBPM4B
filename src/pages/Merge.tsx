@@ -4,6 +4,7 @@ import { BarVisualizer } from '@/components/ui/bar-visualizer';
 import { sfx } from '@/lib/sound';
 import { pickLocalFiles, type LocalSelection } from '@/lib/files';
 import { AudioTrackList } from '@/components/ui/audio-track-list';
+import { mergeAudioInBrowser } from '@/lib/m4b-browser';
 const AUDIO = ['.mp3', '.m4a', '.m4b', '.ogg', '.wav', '.flac', '.aac', '.opus', '.wma', '.aiff'];
 
 export default function Merge() {
@@ -21,16 +22,23 @@ export default function Merge() {
   const pick = async () => { const r = await pickLocalFiles('audio', true); if (r.length) accept(r); };
   const move = (from: number, to: number) => setFiles((p) => { const c = [...p]; const [x] = c.splice(from, 1); c.splice(to, 0, x); return c; });
   const run = async () => {
-    if (files.some((f) => f.file) && !(window as any).bpm4b) { setErr('Merging requires BPM4B desktop. The selected files are imported and ready.'); return; }
-    const out = await (window as any).bpm4b?.pickSave?.({ defaultPath: 'merged.mp3' });
-    if (!out) return;
     setProg(1); setErr(''); setBusy(true); sfx.loading();
-    try { await (window as any).bpm4b?.mergeAudio?.({ inputs: files.map((f) => f.path ?? f.name), output: out }); setProg(100); sfx.success(true); }
+    try {
+      const bridge = (window as any).bpm4b;
+      if (bridge) {
+        const out = await bridge.pickSave?.({ defaultPath: 'merged.mp3' });
+        if (!out) return;
+        await bridge.mergeAudio?.({ inputs: files.map((f) => f.path ?? f.name), output: out });
+      } else {
+        await mergeAudioInBrowser({ inputs: files, onStatus: (status) => setProg(status.progress) });
+      }
+      setProg(100); sfx.success(true);
+    }
     catch (e) { setErr(e instanceof Error ? e.message : String(e)); sfx.error(); }
     finally { setBusy(false); }
   };
   return (
-    <div className="grid gap-4" onDragOver={(e) => e.preventDefault()} onDrop={(e) => { e.preventDefault(); const f = Array.from(e.dataTransfer.files).map((x: any) => x.path ?? x.name).filter(Boolean); if (f.length) accept(f); }}>
+    <div className="grid gap-4" onDragOver={(e) => e.preventDefault()} onDrop={(e) => { e.preventDefault(); const incoming = Array.from(e.dataTransfer.files).map((x: any) => x.path ? { name: x.name, path: x.path } : ({ name: x.name, file: x as File, url: URL.createObjectURL(x), size: x.size })); if (incoming.length) accept(incoming); }}>
       <Card>
         <h2 className="text-lg font-bold">Batch Merge</h2>
         <p className="text-sm text-muted-foreground">Glue parts into one file. Stream-copies when the codecs match — no needless re-encoding.</p>
