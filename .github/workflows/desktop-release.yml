@@ -3,6 +3,12 @@ name: Build desktop releases
 on:
   release:
     types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing release tag to build and attach installers to (for example, v14.0.0)
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -27,6 +33,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name || inputs.tag || github.ref }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -51,6 +59,7 @@ jobs:
           merge-multiple: true
       - uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ github.event.release.tag_name || inputs.tag }}
           files: release-assets/*
           fail_on_unmatched_files: true
 
@@ -61,6 +70,8 @@ jobs:
     if: ${{ vars.PUBLISH_CHOCOLATEY == 'true' }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name || inputs.tag || github.ref }}
       - uses: actions/download-artifact@v4
         with:
           name: BPM4B-Windows
@@ -68,9 +79,10 @@ jobs:
       - name: Pack and publish
         env:
           CHOCOLATEY_API_KEY: ${{ secrets.CHOCOLATEY_API_KEY }}
+          RELEASE_TAG: ${{ github.event.release.tag_name || inputs.tag || github.ref_name }}
         shell: pwsh
         run: |
-          $version = $env:GITHUB_REF_NAME.TrimStart('v')
+          $version = $env:RELEASE_TAG.TrimStart('v')
           choco pack chocolatey/bpm4b.nuspec --version $version
           if ($LASTEXITCODE -ne 0) { throw 'Chocolatey package creation failed.' }
           choco push "bpm4b.$version.nupkg" --api-key $env:CHOCOLATEY_API_KEY --source https://push.chocolatey.org/
