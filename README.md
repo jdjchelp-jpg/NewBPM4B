@@ -1,147 +1,146 @@
-# BPM4B 1.0 — ground-up rewrite
+# BPM4B
 
-Audiobook & audio-production workspace. New architecture, new design system —
-not an extension of the previous BPM4B.
+BPM4B is an audiobook and audio production workspace for the web, Windows/macOS/Linux desktop, and command line. It brings audiobook creation, chapter tools, audio conversion, book creation, and document structure detection into one place.
 
-```
-apps/desktop  (this repo)  Electron + Vite + React 18 + Tailwind 4
-packages/…    (planned)    shared ui · theme · audio · chapters · metadata · formats · jobs
-python/       PyPI CLI     identical delimiter engines + ffmpeg CLI
-chocolatey/   choco pkg    Windows installer wrapper
-docs/         architecture · ui · delimiter-engines · agents
-```
+## A new BPM4B experience
 
-## Quick start
+BPM4B has a redesigned interface and a new application structure built around focused workspaces. The former **Audiobook Maker** has been removed; audiobook tasks now live in dedicated tools such as **MP3 → M4B**, **Single MP3 + Chapter Manifest**, **Folder → M4B**, and **M4B Chapter Tools**. This makes each workflow easier to find and gives the app room for more audio, book, and chapter features.
+
+## Features
+
+### Audiobooks
+
+- **MP3 → M4B:** combine chapter audio files into an audiobook, set chapter titles, and tune encoding quality.
+- **Single MP3 + Chapter Manifest:** add chapter titles and timestamps to one long recording and create an M4B with chapter markers.
+- **Folder → M4B:** select a folder of audio tracks; BPM4B sorts the tracks naturally and uses filenames as chapter titles.
+- **M4B Chapter Tools:** inspect and edit embedded chapter titles and times.
+
+### Audio tools
+
+- **Audio Extractor:** extract audio from supported media files and choose output settings.
+- **Batch Merge:** join multiple audio files into one output.
+- **Format Switcher:** convert supported audio between formats.
+- **Metadata Editor:** inspect and update common audio tags, including title, artist, album, and cover art where supported.
+
+### Books and chapters
+
+- **EPUB Creator:** build an EPUB from imported document content.
+- **Chapter Studio:** detect chapter and section structure in text documents and split the document into sections.
+
+### Workspace
+
+- Dashboard and tool search
+- Job progress, job history, and settings
+- Light, dark, and color themes
+- Keyboard shortcuts: **Ctrl+O** to search tools and **Ctrl+Enter** to start a page action when supported
+
+## Web app
+
+Start the web development server:
+
 ```powershell
 npm install
-npm run build:electron     # emits dist-electron/main.js + preload.js
-npm run electron:dev       # vite (port 5173, strict) + electron
+npm run dev
 ```
-This opens BPM4B as a native Electron desktop window. For a packaged installer,
-use `npm run build`.
-Electron loads Vite's dev URL on **5173**. If a previous Vite is still holding
-the port, `strictPort` fails loudly instead of drifting to 5174:
+
+Open the local URL printed by Vite (normally `http://localhost:5173`). The web app can import local files through the browser's file picker and downloads finished files to your computer. It uses FFmpeg WebAssembly for audio operations that run in the browser; the first use may download roughly 32 MB of encoder assets. Large or very long audio files can exceed browser memory limits, so use the desktop app for those jobs.
+
+## Desktop app
+
+The desktop app uses Electron and runs on Windows, macOS, and Linux. It provides native file dialogs and uses locally installed FFmpeg for media processing.
+
+Run the desktop app during development:
+
 ```powershell
-netstat -ano | findstr :5173
-taskkill /PID <pid> /F
+npm install
+npm run electron:dev
 ```
 
-## Quality gates (all must pass)
-| gate | command | status |
-| --- | --- | --- |
-| vulnerabilities | `npm audit` | ✅ 0 advisories |
-| unit tests | `npm test` | ✅ 2/2 |
-| electron types | `npm run build:electron` | ✅ |
-| renderer types | `npx tsc -p tsconfig.json --noEmit` | ✅ |
-| python parity | `cd python && python tests/run.py` | ✅ 6/6 |
+Create a packaged desktop build for the current platform:
 
-## Navigation
-```
-Dashboard
-├── Audiobooks · MP3→M4B · Single MP3+Manifest · Folder→M4B · M4B Chapter Tools
-├── Audio · Extractor · Batch Merge · Format Switcher · Metadata Editor
-├── Books · EPUB Creator
-├── Studio · Chapter Studio (delimiter engines)
-└── Jobs · History · Settings
+```powershell
+npm run build
 ```
 
-**Themes**: `light · dark · green · blue · red` — one token set, five values.
+The desktop media tools require FFmpeg and FFprobe on `PATH`, or the `FFMPEG_PATH` and `FFPROBE_PATH` environment variables.
 
-## CLI (npm)
+## Command line
+
+The standalone npm CLI is published as `bpm4b` and requires Node.js 22 or later. Install it globally:
+
+```powershell
+npm install --global bpm4b
+bpm4b --help
+```
+
+Examples:
+
+```powershell
+bpm4b detect book.txt
+bpm4b split book.txt
+bpm4b m4b --input "chapter1.mp3,chapter2.mp3" --output audiobook.m4b --titles "Chapter 1,Chapter 2"
+bpm4b m4b --input long.mp3 --output audiobook.m4b --chapters "Opening@00:00:00,Chapter 1@00:25:00" --bitrate 96k
+bpm4b extract audiobook.m4b extracted.mp3 --bitrate 192k
+bpm4b merge --input "part1.mp3,part2.mp3" --output merged.mp3
+```
+
+On Windows PowerShell, use `$env:USERPROFILE` for paths in your home folder. For example:
+
+```powershell
+bpm4b extract "C:\Audio\audiobook.m4b" "$env:USERPROFILE\Downloads\extracted.mp3" --bitrate 192k
+```
+
+Audio commands require FFmpeg on `PATH`, or set `FFMPEG_PATH`. The CLI also includes document structure detection and splitting commands.
+
+To work on the CLI from this repository instead of installing it globally:
+
 ```powershell
 npm run cli -- --help
-npm run cli -- detect book.txt --no-days
-npm run cli -- split book.txt
-npm run cli -- m4b  -i "a.mp3,b.mp3" -o out.m4b -t "Chapter 1,Chapter 2"
-npm run cli -- m4b -i "long.mp3" -o audiobook.m4b -c "Opening@00:00:00,Chapter 1@00:25:00" -b 96k
-npm run cli -- extract book.m4b out.mp3 --bitrate 192k
-npm run cli -- merge -i "p1.mp3,p2.mp3" -o one.mp3
+npm run cli -- detect book.txt
 ```
 
-Link the local CLI so you can use `bpm4b <command>` directly in a terminal:
+## Python CLI
+
+The Python package offers the document and audio CLI workflows as `bpm4b`:
+
 ```powershell
-npm link
+python -m pip install bpm4b
 bpm4b --help
-bpm4b detect sample-book-10-chapters-500-words.txt
+bpm4b detect book.txt --no-days
+bpm4b split book.txt
+bpm4b m4b -i "chapter1.mp3,chapter2.mp3" -o audiobook.m4b -t "Chapter 1,Chapter 2" -b 128k
+bpm4b extract audiobook.m4b extracted.mp3 --bitrate 192k
+bpm4b merge -i "part1.mp3,part2.mp3" -o merged.mp3
 ```
 
-## Full validation run
+Python 3.9 or later and FFmpeg/FFprobe are required. See [python/README.md](python/README.md) for development and installation details.
+
+## Development and validation
+
+Requirements: Node.js 22+, npm, and FFmpeg/FFprobe for audio processing. Python 3.9+ is needed for the Python package.
+
 ```powershell
+npm install
+npm run electron:dev
 npm run test:all
 ```
-This runs the unit tests, a CLI smoke run (help, version, detect, split, both
-M4B chapter modes, extraction, and merge using generated short audio), renderer
-type checking, and both renderer and desktop builds. Native FFmpeg must be on
-`PATH` (or set `FFMPEG_PATH`) for the CLI smoke run. Launch the desktop app with
-`npm run electron:dev`.
 
-## Publishing to npm, PyPI, and desktop platforms
+`npm run test:all` runs the structure tests, CLI smoke checks, renderer type checking and production build, and Electron TypeScript build. The CLI smoke checks need FFmpeg available.
 
-The existing public `bpm4b` packages are already at npm 12 and PyPI 13. This
-rewrite advances both streams to **14.0.0**. Before creating the release:
+## Project layout
 
-1. For npm, build and publish the CLI package manually from `packages/npm-cli`:
-   sync `src-cli/bpm4b.ts` and `electron/ipc/detect.ts` into that directory,
-   run `npm run build`, check with `npm pack --dry-run`, then run `npm login`
-   and `npm publish --access public`. The package is version 14.0.0.
-2. Add a PyPI trusted publisher for project `bpm4b`: owner `jdjchelp-jpg`,
-   repository `NewBPM4B`, workflow filename `pypi-publish.yml`. Leave the
-   environment blank; this workflow does not set one.
-3. Push this repository to GitHub, create tag `v14.0.0`, and publish a GitHub
-   Release for that tag. That release runs the PyPI workflow and builds Windows
-   (NSIS), macOS (DMG), and Linux (AppImage) desktop installers. The desktop
-   workflow attaches those installers to the GitHub Release.
+- `src/` — React interface and workspaces
+- `electron/` — desktop main process, native file operations, and media IPC
+- `src-cli/` — Node CLI
+- `packages/npm-cli/` — standalone npm package source and build configuration
+- `python/` — Python CLI package
+- `chocolatey/` — Windows package files
+- `docs/` — implementation and architecture notes
 
-Check the Actions tab for the release and packaging jobs before sharing it.
-To publish the Windows installer through Chocolatey too, configure repository
-variable `PUBLISH_CHOCOLATEY=true` and secret `CHOCOLATEY_API_KEY` first.
+## Publishing
 
-To test the npm CLI locally before publishing:
-```powershell
-Copy-Item ..\..\src-cli\bpm4b.ts .\src-cli\bpm4b.ts -Force
-Copy-Item ..\..\electron\ipc\detect.ts .\electron\ipc\detect.ts -Force
-npm run build
-node .\dist\launcher.mjs --help
-npm pack --dry-run
-```
+The npm CLI package is maintained in `packages/npm-cli` and is published manually. The PyPI and desktop release workflows run from GitHub Actions after configuring the PyPI trusted publisher and publishing a GitHub Release. See the repository's GitHub Actions workflows and package READMEs for the current release process.
 
-Regenerate platform icons after replacing `BPM4B Icon.png` with:
-```powershell
-node build-resources/generate-icons.mjs
-```
+## License
 
-`m4b --chapters` (or `-c`) accepts `Title@HH:MM:SS` entries for one long audio
-file. The web version uses a bundled FFmpeg WebAssembly encoder and downloads
-the M4B locally; its initial encoder assets are about 32 MB. Electron and CLI
-use the installed native FFmpeg. Browser memory limits make desktop preferable
-for very long audiobooks.
-
-## CLI (PyPI)
-```powershell
-cd python
-python tests\run.py
-python -m bpm4b.cli --help
-python -m bpm4b.cli detect ..\tmp-test.txt --no-days
-pip install -e .          # then: bpm4b --help
-```
-
-## CLI (Chocolatey)
-```powershell
-cd chocolatey\tools
-choco pack bpm4b.nuspec --version 1.0.0
-# choco push bpm4b.1.0.0.nupkg --source https://push.chocolatey.org/
-```
-
-## Sound (cuelume)
-Declarative attributes on chrome, imperative for outcomes — one cue per action.
-See `docs/agents/ui-agent.md`.
-
-## Docs for coding agents
-`docs/agents/` ships with the repo so future agents do not rediscover the
-system: `ui-agent.md`, `audio-processing-agent.md`, `chapter-detection-agent.md`,
-`metadata-agent.md`, `epub-agent.md`, `testing-agent.md`,
-`security-dependency-agent.md`.
-
-## Requirements
-ffmpeg + ffprobe on PATH (or `FFMPEG_PATH` / `FFMPROBE_PATH`). Node ≥ 22,
-Python ≥ 3.9 for the PyPI CLI.
+MIT. See [LICENSE](LICENSE).
