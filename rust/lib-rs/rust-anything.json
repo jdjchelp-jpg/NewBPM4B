@@ -1,0 +1,1012 @@
+{
+  "schema": "rust-anything/bridge@1",
+  "root": "C:\\Users\\johns\\Downloads\\dexbpm4b",
+  "unit": "src/lib/",
+  "language": "ts",
+  "kind": "wasm",
+  "crate_name": "lib-rs",
+  "exports": [
+    {
+      "name": "resolveBallistics",
+      "file": "src/lib/ballistics.ts",
+      "line": 25,
+      "params": [
+        {
+          "name": "input",
+          "ts_type": "(keyof typeof BALLISTICS | Partial<BallisticsOptions>)",
+          "optional": true,
+          "rest": false
+        }
+      ],
+      "returns": "BallisticsOptions",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "logBandEdges",
+      "file": "src/lib/bands.ts",
+      "line": 11,
+      "params": [
+        {
+          "name": "count",
+          "ts_type": "number",
+          "optional": false,
+          "rest": false
+        },
+        {
+          "name": "minHz",
+          "ts_type": "number",
+          "optional": false,
+          "rest": false
+        },
+        {
+          "name": "maxHz",
+          "ts_type": "number",
+          "optional": false,
+          "rest": false
+        }
+      ],
+      "returns": "Float32Array",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "bandsFromSpectrum",
+      "file": "src/lib/bands.ts",
+      "line": 33,
+      "params": [
+        {
+          "name": "spectrumDb",
+          "ts_type": "Float32Array",
+          "optional": false,
+          "rest": false
+        },
+        {
+          "name": "sampleRate",
+          "ts_type": "number",
+          "optional": false,
+          "rest": false
+        },
+        {
+          "name": "edges",
+          "ts_type": "Float32Array",
+          "optional": false,
+          "rest": false
+        },
+        {
+          "name": "out",
+          "ts_type": "Float32Array",
+          "optional": false,
+          "rest": false
+        },
+        {
+          "name": "arg4",
+          "ts_type": "BandsFromSpectrumOptions",
+          "optional": true,
+          "rest": false
+        }
+      ],
+      "returns": "Float32Array",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "resampleLevels",
+      "file": "src/lib/bands.ts",
+      "line": 69,
+      "params": [
+        {
+          "name": "source",
+          "ts_type": "ArrayLike<number>",
+          "optional": false,
+          "rest": false
+        },
+        {
+          "name": "start",
+          "ts_type": "number",
+          "optional": false,
+          "rest": false
+        },
+        {
+          "name": "length",
+          "ts_type": "number",
+          "optional": false,
+          "rest": false
+        },
+        {
+          "name": "out",
+          "ts_type": "Float32Array",
+          "optional": false,
+          "rest": false
+        }
+      ],
+      "returns": "Float32Array",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "clamp",
+      "file": "src/lib/decibels.ts",
+      "line": 11,
+      "params": [
+        {
+          "name": "value",
+          "ts_type": "number",
+          "optional": false,
+          "rest": false
+        },
+        {
+          "name": "min",
+          "ts_type": "number",
+          "optional": false,
+          "rest": false
+        },
+        {
+          "name": "max",
+          "ts_type": "number",
+          "optional": false,
+          "rest": false
+        }
+      ],
+      "returns": "number",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "dbToGain",
+      "file": "src/lib/decibels.ts",
+      "line": 15,
+      "params": [
+        {
+          "name": "db",
+          "ts_type": "number",
+          "optional": false,
+          "rest": false
+        }
+      ],
+      "returns": "number",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "gainToDb",
+      "file": "src/lib/decibels.ts",
+      "line": 23,
+      "params": [
+        {
+          "name": "gain",
+          "ts_type": "number",
+          "optional": false,
+          "rest": false
+        }
+      ],
+      "returns": "number",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "dbToLevel",
+      "file": "src/lib/decibels.ts",
+      "line": 31,
+      "params": [
+        {
+          "name": "db",
+          "ts_type": "number",
+          "optional": false,
+          "rest": false
+        },
+        {
+          "name": "minDb",
+          "ts_type": "number",
+          "optional": true,
+          "rest": false
+        },
+        {
+          "name": "maxDb",
+          "ts_type": "number",
+          "optional": true,
+          "rest": false
+        }
+      ],
+      "returns": "number",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "levelToDb",
+      "file": "src/lib/decibels.ts",
+      "line": 43,
+      "params": [
+        {
+          "name": "level",
+          "ts_type": "number",
+          "optional": false,
+          "rest": false
+        },
+        {
+          "name": "minDb",
+          "ts_type": "number",
+          "optional": true,
+          "rest": false
+        },
+        {
+          "name": "maxDb",
+          "ts_type": "number",
+          "optional": true,
+          "rest": false
+        }
+      ],
+      "returns": "number",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "clampDb",
+      "file": "src/lib/decibels.ts",
+      "line": 53,
+      "params": [
+        {
+          "name": "db",
+          "ts_type": "number",
+          "optional": false,
+          "rest": false
+        },
+        {
+          "name": "minDb",
+          "ts_type": "number",
+          "optional": false,
+          "rest": false
+        },
+        {
+          "name": "maxDb",
+          "ts_type": "number",
+          "optional": false,
+          "rest": false
+        },
+        {
+          "name": "options",
+          "ts_type": "{ allowSilence?: boolean }",
+          "optional": true,
+          "rest": false
+        }
+      ],
+      "returns": "number",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "formatDb",
+      "file": "src/lib/decibels.ts",
+      "line": 83,
+      "params": [
+        {
+          "name": "db",
+          "ts_type": "number",
+          "optional": false,
+          "rest": false
+        },
+        {
+          "name": "options",
+          "ts_type": "FormatDbOptions",
+          "optional": true,
+          "rest": false
+        }
+      ],
+      "returns": "string",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "peakDb",
+      "file": "src/lib/decibels.ts",
+      "line": 116,
+      "params": [
+        {
+          "name": "samples",
+          "ts_type": "Iterable<number>",
+          "optional": false,
+          "rest": false
+        }
+      ],
+      "returns": "number",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "rmsDb",
+      "file": "src/lib/decibels.ts",
+      "line": 128,
+      "params": [
+        {
+          "name": "samples",
+          "ts_type": "Iterable<number>",
+          "optional": false,
+          "rest": false
+        }
+      ],
+      "returns": "number",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "isAudioFile",
+      "file": "src/lib/files.ts",
+      "line": 7,
+      "params": [
+        {
+          "name": "file",
+          "ts_type": "File",
+          "optional": false,
+          "rest": false
+        }
+      ],
+      "returns": "unknown",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "selectionName",
+      "file": "src/lib/files.ts",
+      "line": 8,
+      "params": [
+        {
+          "name": "selection",
+          "ts_type": "{ name: string; file?: File; path?: string; url?: string; size?: number }",
+          "optional": false,
+          "rest": false
+        }
+      ],
+      "returns": "unknown",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "selectionPath",
+      "file": "src/lib/files.ts",
+      "line": 9,
+      "params": [
+        {
+          "name": "selection",
+          "ts_type": "{ name: string; file?: File; path?: string; url?: string; size?: number }",
+          "optional": false,
+          "rest": false
+        }
+      ],
+      "returns": "unknown",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "pickLocalFiles",
+      "file": "src/lib/files.ts",
+      "line": 46,
+      "params": [
+        {
+          "name": "kind",
+          "ts_type": "'audio' | 'book' | 'image' | 'media'",
+          "optional": true,
+          "rest": false
+        },
+        {
+          "name": "multiple",
+          "ts_type": "boolean",
+          "optional": true,
+          "rest": false
+        }
+      ],
+      "returns": "Promise<{ name: string; file?: File; path?: string; url?: string; size?: number }[]>",
+      "is_async": true,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "pickLocalFolder",
+      "file": "src/lib/files.ts",
+      "line": 67,
+      "params": [],
+      "returns": "Promise<{ name: string; file?: File; path?: string; url?: string; size?: number }[]>",
+      "is_async": true,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "pickImage",
+      "file": "src/lib/files.ts",
+      "line": 88,
+      "params": [],
+      "returns": "Promise<{ name: string; file?: File; path?: string; url?: string; size?: number } | null>",
+      "is_async": true,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "toSelections",
+      "file": "src/lib/files.ts",
+      "line": 92,
+      "params": [
+        {
+          "name": "files",
+          "ts_type": "File[]",
+          "optional": false,
+          "rest": false
+        }
+      ],
+      "returns": "{ name: string; file?: File; path?: string; url?: string; size?: number }[]",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "revokeSelection",
+      "file": "src/lib/files.ts",
+      "line": 99,
+      "params": [
+        {
+          "name": "selection",
+          "ts_type": "{ name: string; file?: File; path?: string; url?: string; size?: number }",
+          "optional": false,
+          "rest": false
+        }
+      ],
+      "returns": "unknown",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "formatBytes",
+      "file": "src/lib/files.ts",
+      "line": 103,
+      "params": [
+        {
+          "name": "bytes",
+          "ts_type": "number",
+          "optional": true,
+          "rest": false
+        }
+      ],
+      "returns": "unknown",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "createHistoryPlayback",
+      "file": "src/lib/history-playback.ts",
+      "line": 10,
+      "params": [],
+      "returns": "unknown",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "appendHistory",
+      "file": "src/lib/history.ts",
+      "line": 3,
+      "params": [
+        {
+          "name": "frame",
+          "ts_type": "VisualFrame",
+          "optional": false,
+          "rest": false
+        },
+        {
+          "name": "level",
+          "ts_type": "number",
+          "optional": false,
+          "rest": false
+        },
+        {
+          "name": "nowMs",
+          "ts_type": "number",
+          "optional": false,
+          "rest": false
+        },
+        {
+          "name": "intervalMs",
+          "ts_type": "number",
+          "optional": false,
+          "rest": false
+        }
+      ],
+      "returns": "void",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "readAudioInBrowser",
+      "file": "src/lib/m4b-browser.ts",
+      "line": 242,
+      "params": [
+        {
+          "name": "selection",
+          "ts_type": "LocalSelection",
+          "optional": false,
+          "rest": false
+        }
+      ],
+      "returns": "unknown",
+      "is_async": true,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "writeAudioMetadataInBrowser",
+      "file": "src/lib/m4b-browser.ts",
+      "line": 290,
+      "params": [
+        {
+          "name": "options",
+          "ts_type": "{\n  file: LocalSelection;\n  meta: Record<string, string>;\n  cover?: LocalSelection | null;\n}",
+          "optional": false,
+          "rest": false
+        }
+      ],
+      "returns": "unknown",
+      "is_async": true,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "writeChaptersInBrowser",
+      "file": "src/lib/m4b-browser.ts",
+      "line": 327,
+      "params": [
+        {
+          "name": "options",
+          "ts_type": "{\n  file: LocalSelection;\n  chapters: { start: number; title: string }[];\n}",
+          "optional": false,
+          "rest": false
+        }
+      ],
+      "returns": "unknown",
+      "is_async": true,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "createOperationId",
+      "file": "src/lib/progress.ts",
+      "line": 10,
+      "params": [
+        {
+          "name": "prefix",
+          "ts_type": "string",
+          "optional": true,
+          "rest": false
+        }
+      ],
+      "returns": "unknown",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "reportOperationProgress",
+      "file": "src/lib/progress.ts",
+      "line": 15,
+      "params": [
+        {
+          "name": "update",
+          "ts_type": "Omit<OperationProgress, 'timestamp'>",
+          "optional": false,
+          "rest": false
+        }
+      ],
+      "returns": "unknown",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "initSound",
+      "file": "src/lib/sound.ts",
+      "line": 19,
+      "params": [
+        {
+          "name": "prefs",
+          "ts_type": "Partial<SoundPrefs>",
+          "optional": true,
+          "rest": false
+        }
+      ],
+      "returns": "unknown",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "setSoundEnabled",
+      "file": "src/lib/sound.ts",
+      "line": 39,
+      "params": [
+        {
+          "name": "on",
+          "ts_type": "boolean",
+          "optional": false,
+          "rest": false
+        }
+      ],
+      "returns": "unknown",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "setSoundVolume",
+      "file": "src/lib/sound.ts",
+      "line": 45,
+      "params": [
+        {
+          "name": "v",
+          "ts_type": "number",
+          "optional": false,
+          "rest": false
+        }
+      ],
+      "returns": "unknown",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "detect",
+      "file": "src/lib/structure.ts",
+      "line": 24,
+      "params": [
+        {
+          "name": "text",
+          "ts_type": "string",
+          "optional": false,
+          "rest": false
+        },
+        {
+          "name": "engines",
+          "ts_type": "Partial<EngineState>",
+          "optional": true,
+          "rest": false
+        }
+      ],
+      "returns": "DetectedSection[]",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "splitChapters",
+      "file": "src/lib/structure.ts",
+      "line": 74,
+      "params": [
+        {
+          "name": "text",
+          "ts_type": "string",
+          "optional": false,
+          "rest": false
+        },
+        {
+          "name": "engines",
+          "ts_type": "Partial<EngineState>",
+          "optional": true,
+          "rest": false
+        }
+      ],
+      "returns": "SplitChapter[]",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "linearTaper",
+      "file": "src/lib/taper.ts",
+      "line": 9,
+      "params": [
+        {
+          "name": "min",
+          "ts_type": "number",
+          "optional": false,
+          "rest": false
+        },
+        {
+          "name": "max",
+          "ts_type": "number",
+          "optional": false,
+          "rest": false
+        }
+      ],
+      "returns": "Taper",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "audioTaper",
+      "file": "src/lib/taper.ts",
+      "line": 30,
+      "params": [
+        {
+          "name": "arg0",
+          "ts_type": "AudioTaperOptions",
+          "optional": true,
+          "rest": false
+        }
+      ],
+      "returns": "Taper",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "logTaper",
+      "file": "src/lib/taper.ts",
+      "line": 69,
+      "params": [
+        {
+          "name": "min",
+          "ts_type": "number",
+          "optional": false,
+          "rest": false
+        },
+        {
+          "name": "max",
+          "ts_type": "number",
+          "optional": false,
+          "rest": false
+        }
+      ],
+      "returns": "Taper",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "resolveTaper",
+      "file": "src/lib/taper.ts",
+      "line": 85,
+      "params": [
+        {
+          "name": "taper",
+          "ts_type": "(\"linear\" | \"audio\" | \"log\" | Taper)",
+          "optional": false,
+          "rest": false
+        },
+        {
+          "name": "min",
+          "ts_type": "number",
+          "optional": false,
+          "rest": false
+        },
+        {
+          "name": "max",
+          "ts_type": "number",
+          "optional": false,
+          "rest": false
+        }
+      ],
+      "returns": "Taper",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "formatTime",
+      "file": "src/lib/time.ts",
+      "line": 15,
+      "params": [
+        {
+          "name": "seconds",
+          "ts_type": "number",
+          "optional": false,
+          "rest": false
+        },
+        {
+          "name": "options",
+          "ts_type": "FormatTimeOptions",
+          "optional": true,
+          "rest": false
+        }
+      ],
+      "returns": "string",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "cn",
+      "file": "src/lib/utils.ts",
+      "line": 3,
+      "params": [
+        {
+          "name": "inputs",
+          "ts_type": "ClassValue[]",
+          "optional": true,
+          "rest": true
+        }
+      ],
+      "returns": "unknown",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "triggerIndex",
+      "file": "src/lib/wave-line.ts",
+      "line": 75,
+      "params": [
+        {
+          "name": "samples",
+          "ts_type": "ArrayLike<number>",
+          "optional": false,
+          "rest": false
+        }
+      ],
+      "returns": "number",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    },
+    {
+      "name": "zoneForDb",
+      "file": "src/lib/zones.ts",
+      "line": 16,
+      "params": [
+        {
+          "name": "db",
+          "ts_type": "number",
+          "optional": false,
+          "rest": false
+        },
+        {
+          "name": "zones",
+          "ts_type": "MeterZone[]",
+          "optional": true,
+          "rest": false
+        }
+      ],
+      "returns": "MeterZoneName",
+      "is_async": false,
+      "is_generator": false,
+      "type_params": [],
+      "uses_instanceof": false
+    }
+  ],
+  "classes": [],
+  "js_only": [
+    {
+      "name": "createBallistics",
+      "file": "src/lib/ballistics.ts",
+      "line": 57,
+      "reason": "uses `Ballistics`, which has function members"
+    },
+    {
+      "name": "createBarLevels",
+      "file": "src/lib/bar-levels.ts",
+      "line": 83,
+      "reason": "uses `BarLevels`, which has function members"
+    },
+    {
+      "name": "buildEpubInBrowser",
+      "file": "src/lib/epub-browser.ts",
+      "line": 98,
+      "reason": "takes or returns a function"
+    },
+    {
+      "name": "useAudioImport",
+      "file": "src/lib/files.ts",
+      "line": 11,
+      "reason": "takes or returns a function"
+    },
+    {
+      "name": "subscribeFrame",
+      "file": "src/lib/frame-loop.ts",
+      "line": 42,
+      "reason": "takes or returns a function"
+    },
+    {
+      "name": "createFrameTask",
+      "file": "src/lib/frame-loop.ts",
+      "line": 78,
+      "reason": "takes or returns a function"
+    },
+    {
+      "name": "createPainterClock",
+      "file": "src/lib/frame-loop.ts",
+      "line": 118,
+      "reason": "takes or returns a function"
+    },
+    {
+      "name": "createFrameEmitter",
+      "file": "src/lib/frame-source.ts",
+      "line": 14,
+      "reason": "uses `FrameEmitter`, which has function members"
+    },
+    {
+      "name": "createFrameRelay",
+      "file": "src/lib/frame-source.ts",
+      "line": 46,
+      "reason": "uses `FrameRelay`, which has function members"
+    },
+    {
+      "name": "buildM4bInBrowser",
+      "file": "src/lib/m4b-browser.ts",
+      "line": 36,
+      "reason": "takes or returns a function"
+    },
+    {
+      "name": "convertAudioInBrowser",
+      "file": "src/lib/m4b-browser.ts",
+      "line": 146,
+      "reason": "takes or returns a function"
+    },
+    {
+      "name": "mergeAudioInBrowser",
+      "file": "src/lib/m4b-browser.ts",
+      "line": 200,
+      "reason": "takes or returns a function"
+    },
+    {
+      "name": "createWaveLine",
+      "file": "src/lib/wave-line.ts",
+      "line": 126,
+      "reason": "uses `WaveLine`, which has function members"
+    }
+  ]
+}

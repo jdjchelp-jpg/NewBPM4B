@@ -1,0 +1,1306 @@
+{
+  "schema": "rust-anything/analyze@1",
+  "language": "ts",
+  "summary": {
+    "packages": 2,
+    "source_files": 35,
+    "test_files": 1,
+    "ui_files": 27,
+    "loc": 5303,
+    "units": 15,
+    "ready": 7,
+    "caution": 2,
+    "blocked": 0,
+    "keep": 6,
+    "parse_errors": 0
+  },
+  "packages": [
+    {
+      "name": "bpm4b",
+      "dir": "",
+      "order": 1,
+      "runtime": "portable",
+      "workspace_deps": [],
+      "test_files": 1,
+      "units": [
+        "build-resources/",
+        "electron/",
+        "electron/ipc/",
+        "packages/npm-cli/build.mjs",
+        "packages/npm-cli/electron/ipc/",
+        "packages/npm-cli/launcher.mjs",
+        "packages/npm-cli/src-cli/",
+        "src-cli/",
+        "src/App.tsx",
+        "src/components/",
+        "src/components/ui/",
+        "src/hooks/",
+        "src/lib/",
+        "src/main.tsx",
+        "src/pages/"
+      ]
+    },
+    {
+      "name": "bpm4b",
+      "dir": "packages/npm-cli",
+      "order": 2,
+      "runtime": "node",
+      "workspace_deps": [],
+      "test_files": 0,
+      "units": [
+        "build-resources/",
+        "electron/",
+        "electron/ipc/",
+        "packages/npm-cli/build.mjs",
+        "packages/npm-cli/electron/ipc/",
+        "packages/npm-cli/launcher.mjs",
+        "packages/npm-cli/src-cli/",
+        "src-cli/",
+        "src/App.tsx",
+        "src/components/",
+        "src/components/ui/",
+        "src/hooks/",
+        "src/lib/",
+        "src/main.tsx",
+        "src/pages/"
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "build-resources/",
+      "package": "bpm4b",
+      "files": [
+        "build-resources/generate-icons.mjs"
+      ],
+      "loc": 27,
+      "wave": 0,
+      "readiness": 100,
+      "status": "ready",
+      "bridge": "napi-rs",
+      "platforms": [
+        "node"
+      ],
+      "risks": [],
+      "internal_deps": [],
+      "workspace_deps": [],
+      "external_deps": [],
+      "direct_tests": 0,
+      "fan_in": 0,
+      "density": 3.7,
+      "priority": 68,
+      "exports": 0,
+      "bridgeable": 0,
+      "notes": [
+        "Leaf: imports no other unit."
+      ]
+    },
+    {
+      "id": "electron/",
+      "package": "bpm4b",
+      "files": [
+        "electron/main.ts",
+        "electron/preload.ts"
+      ],
+      "loc": 93,
+      "wave": 1,
+      "readiness": 78,
+      "status": "ready",
+      "bridge": "napi-rs",
+      "platforms": [
+        "node"
+      ],
+      "risks": [
+        {
+          "risk": "dynamic-typing",
+          "severity": "medium",
+          "count": 16,
+          "samples": [
+            "electron/preload.ts:3",
+            "electron/preload.ts:5",
+            "electron/preload.ts:6"
+          ]
+        },
+        {
+          "risk": "async",
+          "severity": "medium",
+          "count": 12,
+          "samples": [
+            "electron/main.ts:27",
+            "electron/main.ts:47",
+            "electron/main.ts:53"
+          ]
+        },
+        {
+          "risk": "callbacks",
+          "severity": "medium",
+          "count": 1,
+          "samples": [
+            "electron/preload.ts:21"
+          ]
+        },
+        {
+          "risk": "exceptions",
+          "severity": "low",
+          "count": 3,
+          "samples": [
+            "electron/main.ts:20",
+            "electron/main.ts:29",
+            "electron/main.ts:44"
+          ]
+        }
+      ],
+      "internal_deps": [
+        "electron/ipc/"
+      ],
+      "workspace_deps": [],
+      "external_deps": [
+        "electron"
+      ],
+      "direct_tests": 0,
+      "fan_in": 0,
+      "density": 2.2,
+      "priority": 61,
+      "exports": 0,
+      "bridgeable": 0,
+      "notes": [
+        "1 npm dependencies not in the crate table: check them by hand.",
+        "Imports `electron/ipc/`: port it first, or port them together."
+      ]
+    },
+    {
+      "id": "electron/ipc/",
+      "package": "bpm4b",
+      "files": [
+        "electron/ipc/detect.ts",
+        "electron/ipc/media.ts",
+        "electron/ipc/projects.ts",
+        "electron/ipc/structure.ts"
+      ],
+      "loc": 387,
+      "wave": 0,
+      "readiness": 32,
+      "status": "caution",
+      "bridge": "napi-rs",
+      "platforms": [
+        "node"
+      ],
+      "risks": [
+        {
+          "risk": "regex-syntax",
+          "severity": "high",
+          "count": 6,
+          "samples": [
+            "electron/ipc/detect.ts:4",
+            "electron/ipc/detect.ts:5",
+            "electron/ipc/detect.ts:6"
+          ]
+        },
+        {
+          "risk": "string-offsets",
+          "severity": "high",
+          "count": 4,
+          "samples": [
+            "electron/ipc/detect.ts:25",
+            "electron/ipc/media.ts:23",
+            "electron/ipc/media.ts:28"
+          ]
+        },
+        {
+          "risk": "dynamic-regex",
+          "severity": "high",
+          "count": 1,
+          "samples": [
+            "electron/ipc/detect.ts:63"
+          ]
+        },
+        {
+          "risk": "async",
+          "severity": "medium",
+          "count": 25,
+          "samples": [
+            "electron/ipc/media.ts:12",
+            "electron/ipc/media.ts:167",
+            "electron/ipc/media.ts:205"
+          ]
+        },
+        {
+          "risk": "dynamic-typing",
+          "severity": "medium",
+          "count": 5,
+          "samples": [
+            "electron/ipc/detect.ts:54",
+            "electron/ipc/media.ts:48",
+            "electron/ipc/media.ts:251"
+          ]
+        },
+        {
+          "risk": "ordered-collections",
+          "severity": "medium",
+          "count": 3,
+          "samples": [
+            "electron/ipc/detect.ts:15",
+            "electron/ipc/detect.ts:52",
+            "electron/ipc/media.ts:305"
+          ]
+        },
+        {
+          "risk": "callbacks",
+          "severity": "medium",
+          "count": 2,
+          "samples": [
+            "electron/ipc/media.ts:11",
+            "electron/ipc/media.ts:117"
+          ]
+        },
+        {
+          "risk": "exceptions",
+          "severity": "low",
+          "count": 32,
+          "samples": [
+            "electron/ipc/detect.ts:63",
+            "electron/ipc/media.ts:34",
+            "electron/ipc/media.ts:41"
+          ]
+        },
+        {
+          "risk": "number-semantics",
+          "severity": "low",
+          "count": 18,
+          "samples": [
+            "electron/ipc/media.ts:21",
+            "electron/ipc/media.ts:70",
+            "electron/ipc/media.ts:71"
+          ]
+        },
+        {
+          "risk": "clock-and-random",
+          "severity": "low",
+          "count": 6,
+          "samples": [
+            "electron/ipc/media.ts:119",
+            "electron/ipc/media.ts:169",
+            "electron/ipc/media.ts:170"
+          ]
+        },
+        {
+          "risk": "json",
+          "severity": "low",
+          "count": 2,
+          "samples": [
+            "electron/ipc/projects.ts:4",
+            "electron/ipc/projects.ts:5"
+          ]
+        }
+      ],
+      "internal_deps": [],
+      "workspace_deps": [],
+      "external_deps": [
+        "electron",
+        "music-metadata"
+      ],
+      "direct_tests": 1,
+      "fan_in": 2,
+      "density": 5.2,
+      "priority": 51,
+      "exports": 5,
+      "bridgeable": 4,
+      "notes": [
+        "2 npm dependencies not in the crate table: check them by hand.",
+        "Leaf: imports no other unit.",
+        "1 test file imports it directly."
+      ]
+    },
+    {
+      "id": "packages/npm-cli/build.mjs",
+      "package": "bpm4b",
+      "files": [
+        "packages/npm-cli/build.mjs"
+      ],
+      "loc": 15,
+      "wave": 0,
+      "readiness": 99,
+      "status": "ready",
+      "bridge": "napi-rs",
+      "platforms": [
+        "node"
+      ],
+      "risks": [
+        {
+          "risk": "exceptions",
+          "severity": "low",
+          "count": 1,
+          "samples": [
+            "packages/npm-cli/build.mjs:14"
+          ]
+        }
+      ],
+      "internal_deps": [],
+      "workspace_deps": [],
+      "external_deps": [],
+      "direct_tests": 0,
+      "fan_in": 0,
+      "density": 0.0,
+      "priority": 51,
+      "exports": 0,
+      "bridgeable": 0,
+      "notes": [
+        "Leaf: imports no other unit.",
+        "No tests found: write characterization tests against the original code first."
+      ]
+    },
+    {
+      "id": "packages/npm-cli/electron/ipc/",
+      "package": "bpm4b",
+      "files": [
+        "packages/npm-cli/electron/ipc/detect.ts"
+      ],
+      "loc": 60,
+      "wave": 0,
+      "readiness": 71,
+      "status": "ready",
+      "bridge": "napi-rs",
+      "platforms": [],
+      "risks": [
+        {
+          "risk": "regex-syntax",
+          "severity": "high",
+          "count": 6,
+          "samples": [
+            "packages/npm-cli/electron/ipc/detect.ts:4",
+            "packages/npm-cli/electron/ipc/detect.ts:5",
+            "packages/npm-cli/electron/ipc/detect.ts:6"
+          ]
+        },
+        {
+          "risk": "string-offsets",
+          "severity": "high",
+          "count": 1,
+          "samples": [
+            "packages/npm-cli/electron/ipc/detect.ts:25"
+          ]
+        },
+        {
+          "risk": "dynamic-regex",
+          "severity": "high",
+          "count": 1,
+          "samples": [
+            "packages/npm-cli/electron/ipc/detect.ts:63"
+          ]
+        },
+        {
+          "risk": "ordered-collections",
+          "severity": "medium",
+          "count": 2,
+          "samples": [
+            "packages/npm-cli/electron/ipc/detect.ts:15",
+            "packages/npm-cli/electron/ipc/detect.ts:52"
+          ]
+        },
+        {
+          "risk": "dynamic-typing",
+          "severity": "medium",
+          "count": 1,
+          "samples": [
+            "packages/npm-cli/electron/ipc/detect.ts:54"
+          ]
+        },
+        {
+          "risk": "exceptions",
+          "severity": "low",
+          "count": 1,
+          "samples": [
+            "packages/npm-cli/electron/ipc/detect.ts:63"
+          ]
+        }
+      ],
+      "internal_deps": [],
+      "workspace_deps": [],
+      "external_deps": [],
+      "direct_tests": 0,
+      "fan_in": 1,
+      "density": 11.7,
+      "priority": 66,
+      "exports": 2,
+      "bridgeable": 2,
+      "notes": [
+        "Leaf: imports no other unit.",
+        "No tests found: write characterization tests against the original code first."
+      ]
+    },
+    {
+      "id": "packages/npm-cli/launcher.mjs",
+      "package": "bpm4b",
+      "files": [
+        "packages/npm-cli/launcher.mjs"
+      ],
+      "loc": 2,
+      "wave": 0,
+      "readiness": 100,
+      "status": "ready",
+      "bridge": "napi-rs",
+      "platforms": [],
+      "risks": [],
+      "internal_deps": [],
+      "workspace_deps": [],
+      "external_deps": [],
+      "direct_tests": 0,
+      "fan_in": 0,
+      "density": 0.0,
+      "priority": 50,
+      "exports": 0,
+      "bridgeable": 0,
+      "notes": [
+        "1 imports use aliases or virtual modules and were not followed.",
+        "Leaf: imports no other unit.",
+        "No tests found: write characterization tests against the original code first."
+      ]
+    },
+    {
+      "id": "packages/npm-cli/src-cli/",
+      "package": "bpm4b",
+      "files": [
+        "packages/npm-cli/src-cli/bpm4b.ts"
+      ],
+      "loc": 138,
+      "wave": 1,
+      "readiness": 72,
+      "status": "ready",
+      "bridge": "napi-rs",
+      "platforms": [
+        "node"
+      ],
+      "risks": [
+        {
+          "risk": "string-offsets",
+          "severity": "high",
+          "count": 3,
+          "samples": [
+            "packages/npm-cli/src-cli/bpm4b.ts:88",
+            "packages/npm-cli/src-cli/bpm4b.ts:90"
+          ]
+        },
+        {
+          "risk": "async",
+          "severity": "medium",
+          "count": 8,
+          "samples": [
+            "packages/npm-cli/src-cli/bpm4b.ts:13",
+            "packages/npm-cli/src-cli/bpm4b.ts:81",
+            "packages/npm-cli/src-cli/bpm4b.ts:112"
+          ]
+        },
+        {
+          "risk": "dynamic-typing",
+          "severity": "medium",
+          "count": 2,
+          "samples": [
+            "packages/npm-cli/src-cli/bpm4b.ts:25",
+            "packages/npm-cli/src-cli/bpm4b.ts:28"
+          ]
+        },
+        {
+          "risk": "exceptions",
+          "severity": "low",
+          "count": 12,
+          "samples": [
+            "packages/npm-cli/src-cli/bpm4b.ts:24",
+            "packages/npm-cli/src-cli/bpm4b.ts:38",
+            "packages/npm-cli/src-cli/bpm4b.ts:83"
+          ]
+        },
+        {
+          "risk": "number-semantics",
+          "severity": "low",
+          "count": 4,
+          "samples": [
+            "packages/npm-cli/src-cli/bpm4b.ts:97",
+            "packages/npm-cli/src-cli/bpm4b.ts:105"
+          ]
+        },
+        {
+          "risk": "clock-and-random",
+          "severity": "low",
+          "count": 2,
+          "samples": [
+            "packages/npm-cli/src-cli/bpm4b.ts:19",
+            "packages/npm-cli/src-cli/bpm4b.ts:109"
+          ]
+        },
+        {
+          "risk": "json",
+          "severity": "low",
+          "count": 1,
+          "samples": [
+            "packages/npm-cli/src-cli/bpm4b.ts:69"
+          ]
+        }
+      ],
+      "internal_deps": [
+        "packages/npm-cli/electron/ipc/"
+      ],
+      "workspace_deps": [],
+      "external_deps": [
+        "commander"
+      ],
+      "direct_tests": 0,
+      "fan_in": 0,
+      "density": 2.2,
+      "priority": 51,
+      "exports": 0,
+      "bridgeable": 0,
+      "notes": [
+        "Imports `packages/npm-cli/electron/ipc/`: port it first, or port them together.",
+        "No tests found: write characterization tests against the original code first."
+      ]
+    },
+    {
+      "id": "src-cli/",
+      "package": "bpm4b",
+      "files": [
+        "src-cli/bpm4b-launcher.mjs",
+        "src-cli/bpm4b.ts",
+        "src-cli/smoke-test.mjs"
+      ],
+      "loc": 210,
+      "wave": 1,
+      "readiness": 73,
+      "status": "ready",
+      "bridge": "napi-rs",
+      "platforms": [
+        "node"
+      ],
+      "risks": [
+        {
+          "risk": "string-offsets",
+          "severity": "high",
+          "count": 4,
+          "samples": [
+            "src-cli/bpm4b-launcher.mjs:6",
+            "src-cli/bpm4b.ts:88",
+            "src-cli/bpm4b.ts:90"
+          ]
+        },
+        {
+          "risk": "async",
+          "severity": "medium",
+          "count": 8,
+          "samples": [
+            "src-cli/bpm4b.ts:13",
+            "src-cli/bpm4b.ts:81",
+            "src-cli/bpm4b.ts:112"
+          ]
+        },
+        {
+          "risk": "dynamic-typing",
+          "severity": "medium",
+          "count": 2,
+          "samples": [
+            "src-cli/bpm4b.ts:25",
+            "src-cli/bpm4b.ts:28"
+          ]
+        },
+        {
+          "risk": "exceptions",
+          "severity": "low",
+          "count": 14,
+          "samples": [
+            "src-cli/bpm4b.ts:24",
+            "src-cli/bpm4b.ts:38",
+            "src-cli/bpm4b.ts:83"
+          ]
+        },
+        {
+          "risk": "number-semantics",
+          "severity": "low",
+          "count": 4,
+          "samples": [
+            "src-cli/bpm4b.ts:97",
+            "src-cli/bpm4b.ts:105"
+          ]
+        },
+        {
+          "risk": "clock-and-random",
+          "severity": "low",
+          "count": 2,
+          "samples": [
+            "src-cli/bpm4b.ts:19",
+            "src-cli/bpm4b.ts:109"
+          ]
+        },
+        {
+          "risk": "json",
+          "severity": "low",
+          "count": 1,
+          "samples": [
+            "src-cli/bpm4b.ts:69"
+          ]
+        }
+      ],
+      "internal_deps": [
+        "electron/ipc/"
+      ],
+      "workspace_deps": [],
+      "external_deps": [
+        "commander"
+      ],
+      "direct_tests": 0,
+      "fan_in": 0,
+      "density": 2.4,
+      "priority": 59,
+      "exports": 0,
+      "bridgeable": 0,
+      "notes": [
+        "Imports `electron/ipc/`: port it first, or port them together."
+      ]
+    },
+    {
+      "id": "src/App.tsx",
+      "package": "bpm4b",
+      "files": [
+        "src/App.tsx"
+      ],
+      "loc": 105,
+      "wave": 4,
+      "readiness": 99,
+      "status": "keep",
+      "bridge": "keep-in-js",
+      "platforms": [
+        "browser",
+        "ui"
+      ],
+      "risks": [
+        {
+          "risk": "clock-and-random",
+          "severity": "low",
+          "count": 1,
+          "samples": [
+            "src/App.tsx:67"
+          ]
+        }
+      ],
+      "internal_deps": [
+        "src/lib/",
+        "src/pages/"
+      ],
+      "workspace_deps": [],
+      "external_deps": [],
+      "direct_tests": 0,
+      "fan_in": 1,
+      "density": 0.0,
+      "priority": 67,
+      "exports": 0,
+      "bridgeable": 0,
+      "notes": [
+        "UI code: keep in the original language."
+      ]
+    },
+    {
+      "id": "src/components/",
+      "package": "bpm4b",
+      "files": [
+        "src/components/mixer.tsx",
+        "src/components/ui.tsx"
+      ],
+      "loc": 83,
+      "wave": 1,
+      "readiness": 93,
+      "status": "keep",
+      "bridge": "keep-in-js",
+      "platforms": [
+        "ui"
+      ],
+      "risks": [
+        {
+          "risk": "callbacks",
+          "severity": "medium",
+          "count": 2,
+          "samples": [
+            "src/components/mixer.tsx:23"
+          ]
+        },
+        {
+          "risk": "ordered-collections",
+          "severity": "medium",
+          "count": 1,
+          "samples": [
+            "src/components/mixer.tsx:7"
+          ]
+        },
+        {
+          "risk": "exceptions",
+          "severity": "low",
+          "count": 1,
+          "samples": [
+            "src/components/mixer.tsx:15"
+          ]
+        }
+      ],
+      "internal_deps": [
+        "src/lib/"
+      ],
+      "workspace_deps": [],
+      "external_deps": [],
+      "direct_tests": 0,
+      "fan_in": 2,
+      "density": 0.0,
+      "priority": 64,
+      "exports": 0,
+      "bridgeable": 0,
+      "notes": [
+        "UI code: keep in the original language."
+      ]
+    },
+    {
+      "id": "src/components/ui/",
+      "package": "bpm4b",
+      "files": [
+        "src/components/ui/audio-track-list.tsx",
+        "src/components/ui/badge.tsx",
+        "src/components/ui/bar-visualizer.tsx",
+        "src/components/ui/channel-strip.tsx",
+        "src/components/ui/level-meter.tsx",
+        "src/components/ui/mixer.tsx",
+        "src/components/ui/quality-knob.tsx",
+        "src/components/ui/waveform.tsx"
+      ],
+      "loc": 1057,
+      "wave": 2,
+      "readiness": 46,
+      "status": "keep",
+      "bridge": "keep-in-js",
+      "platforms": [
+        "browser",
+        "ui"
+      ],
+      "risks": [
+        {
+          "risk": "string-offsets",
+          "severity": "high",
+          "count": 1,
+          "samples": [
+            "src/components/ui/mixer.tsx:157"
+          ]
+        },
+        {
+          "risk": "callbacks",
+          "severity": "medium",
+          "count": 2,
+          "samples": [
+            "src/components/ui/audio-track-list.tsx:8",
+            "src/components/ui/quality-knob.tsx:43"
+          ]
+        },
+        {
+          "risk": "dynamic-typing",
+          "severity": "medium",
+          "count": 1,
+          "samples": [
+            "src/components/ui/channel-strip.tsx:170"
+          ]
+        },
+        {
+          "risk": "number-semantics",
+          "severity": "low",
+          "count": 21,
+          "samples": [
+            "src/components/ui/bar-visualizer.tsx:25",
+            "src/components/ui/level-meter.tsx:26",
+            "src/components/ui/level-meter.tsx:28"
+          ]
+        },
+        {
+          "risk": "exceptions",
+          "severity": "low",
+          "count": 2,
+          "samples": [
+            "src/components/ui/channel-strip.tsx:39",
+            "src/components/ui/mixer.tsx:25"
+          ]
+        }
+      ],
+      "internal_deps": [
+        "src/components/",
+        "src/hooks/",
+        "src/lib/"
+      ],
+      "workspace_deps": [],
+      "external_deps": [
+        "@base-ui/react",
+        "class-variance-authority",
+        "cn",
+        "radix-ui"
+      ],
+      "direct_tests": 0,
+      "fan_in": 1,
+      "density": 0.5,
+      "priority": 37,
+      "exports": 0,
+      "bridgeable": 0,
+      "notes": [
+        "UI code: keep in the original language.",
+        "4 npm dependencies not in the crate table: check them by hand."
+      ]
+    },
+    {
+      "id": "src/hooks/",
+      "package": "bpm4b",
+      "files": [
+        "src/hooks/use-audio-config.tsx"
+      ],
+      "loc": 66,
+      "wave": 1,
+      "readiness": 100,
+      "status": "keep",
+      "bridge": "keep-in-js",
+      "platforms": [
+        "ui"
+      ],
+      "risks": [],
+      "internal_deps": [
+        "src/lib/"
+      ],
+      "workspace_deps": [],
+      "external_deps": [],
+      "direct_tests": 0,
+      "fan_in": 1,
+      "density": 0.0,
+      "priority": 66,
+      "exports": 0,
+      "bridgeable": 0,
+      "notes": [
+        "UI code: keep in the original language."
+      ]
+    },
+    {
+      "id": "src/lib/",
+      "package": "bpm4b",
+      "files": [
+        "src/lib/ballistics.ts",
+        "src/lib/bands.ts",
+        "src/lib/bar-levels.ts",
+        "src/lib/decibels.ts",
+        "src/lib/epub-browser.ts",
+        "src/lib/files.ts",
+        "src/lib/frame-loop.ts",
+        "src/lib/frame-source.ts",
+        "src/lib/history-playback.ts",
+        "src/lib/history.ts",
+        "src/lib/m4b-browser.ts",
+        "src/lib/progress.ts",
+        "src/lib/sound.ts",
+        "src/lib/store.ts",
+        "src/lib/structure.ts",
+        "src/lib/taper.ts",
+        "src/lib/time.ts",
+        "src/lib/types.ts",
+        "src/lib/utils.ts",
+        "src/lib/wave-line.ts",
+        "src/lib/zones.ts"
+      ],
+      "loc": 1788,
+      "wave": 0,
+      "readiness": 0,
+      "status": "caution",
+      "bridge": "wasm-bindgen",
+      "platforms": [
+        "browser"
+      ],
+      "risks": [
+        {
+          "risk": "string-offsets",
+          "severity": "high",
+          "count": 24,
+          "samples": [
+            "src/lib/epub-browser.ts:78",
+            "src/lib/m4b-browser.ts:27",
+            "src/lib/m4b-browser.ts:30"
+          ]
+        },
+        {
+          "risk": "regex-syntax",
+          "severity": "high",
+          "count": 10,
+          "samples": [
+            "src/lib/epub-browser.ts:88",
+            "src/lib/epub-browser.ts:90",
+            "src/lib/epub-browser.ts:95"
+          ]
+        },
+        {
+          "risk": "dynamic-regex",
+          "severity": "high",
+          "count": 1,
+          "samples": [
+            "src/lib/structure.ts:62"
+          ]
+        },
+        {
+          "risk": "async",
+          "severity": "medium",
+          "count": 72,
+          "samples": [
+            "src/lib/epub-browser.ts:98",
+            "src/lib/epub-browser.ts:129",
+            "src/lib/files.ts:21"
+          ]
+        },
+        {
+          "risk": "callbacks",
+          "severity": "medium",
+          "count": 38,
+          "samples": [
+            "src/lib/ballistics.ts:42",
+            "src/lib/ballistics.ts:43",
+            "src/lib/bar-levels.ts:34"
+          ]
+        },
+        {
+          "risk": "ordered-collections",
+          "severity": "medium",
+          "count": 9,
+          "samples": [
+            "src/lib/files.ts:6",
+            "src/lib/frame-loop.ts:5",
+            "src/lib/frame-loop.ts:6"
+          ]
+        },
+        {
+          "risk": "dynamic-typing",
+          "severity": "medium",
+          "count": 4,
+          "samples": [
+            "src/lib/files.ts:22",
+            "src/lib/files.ts:47",
+            "src/lib/files.ts:68"
+          ]
+        },
+        {
+          "risk": "exceptions",
+          "severity": "low",
+          "count": 49,
+          "samples": [
+            "src/lib/epub-browser.ts:116",
+            "src/lib/frame-loop.ts:15",
+            "src/lib/frame-loop.ts:24"
+          ]
+        },
+        {
+          "risk": "number-semantics",
+          "severity": "low",
+          "count": 26,
+          "samples": [
+            "src/lib/decibels.ts:102",
+            "src/lib/decibels.ts:103",
+            "src/lib/epub-browser.ts:19"
+          ]
+        },
+        {
+          "risk": "clock-and-random",
+          "severity": "low",
+          "count": 14,
+          "samples": [
+            "src/lib/epub-browser.ts:108",
+            "src/lib/epub-browser.ts:150",
+            "src/lib/epub-browser.ts:151"
+          ]
+        },
+        {
+          "risk": "json",
+          "severity": "low",
+          "count": 3,
+          "samples": [
+            "src/lib/progress.ts:22",
+            "src/lib/store.ts:26",
+            "src/lib/store.ts:40"
+          ]
+        }
+      ],
+      "internal_deps": [],
+      "workspace_deps": [],
+      "external_deps": [
+        "@ffmpeg/core",
+        "@ffmpeg/core?url",
+        "@ffmpeg/ffmpeg",
+        "clsx",
+        "cuelume",
+        "tailwind-merge",
+        "zustand"
+      ],
+      "direct_tests": 0,
+      "fan_in": 6,
+      "density": 3.8,
+      "priority": 20,
+      "exports": 55,
+      "bridgeable": 42,
+      "notes": [
+        "5 npm dependencies not in the crate table: check them by hand.",
+        "Leaf: imports no other unit.",
+        "Portable code: wasm-bindgen keeps it running in browsers and Node. It needs the wasm32-unknown-unknown target and wasm-bindgen; `bridge --kind napi` runs with what Node already has."
+      ]
+    },
+    {
+      "id": "src/main.tsx",
+      "package": "bpm4b",
+      "files": [
+        "src/main.tsx"
+      ],
+      "loc": 7,
+      "wave": 5,
+      "readiness": 100,
+      "status": "keep",
+      "bridge": "keep-in-js",
+      "platforms": [
+        "browser",
+        "ui"
+      ],
+      "risks": [],
+      "internal_deps": [
+        "src/App.tsx",
+        "src/lib/"
+      ],
+      "workspace_deps": [],
+      "external_deps": [
+        "react-dom"
+      ],
+      "direct_tests": 0,
+      "fan_in": 0,
+      "density": 0.0,
+      "priority": 58,
+      "exports": 0,
+      "bridgeable": 0,
+      "notes": [
+        "UI code: keep in the original language.",
+        "1 npm dependencies not in the crate table: check them by hand.",
+        "1 imports use aliases or virtual modules and were not followed."
+      ]
+    },
+    {
+      "id": "src/pages/",
+      "package": "bpm4b",
+      "files": [
+        "src/pages/Chapters.tsx",
+        "src/pages/Dashboard.tsx",
+        "src/pages/Epub.tsx",
+        "src/pages/Extractor.tsx",
+        "src/pages/FolderToM4b.tsx",
+        "src/pages/Format.tsx",
+        "src/pages/History.tsx",
+        "src/pages/Jobs.tsx",
+        "src/pages/M4bChapters.tsx",
+        "src/pages/Merge.tsx",
+        "src/pages/Metadata.tsx",
+        "src/pages/Mp3ToM4b.tsx",
+        "src/pages/Settings.tsx",
+        "src/pages/SingleManifest.tsx"
+      ],
+      "loc": 1265,
+      "wave": 3,
+      "readiness": 11,
+      "status": "keep",
+      "bridge": "keep-in-js",
+      "platforms": [
+        "browser",
+        "ui"
+      ],
+      "risks": [
+        {
+          "risk": "string-offsets",
+          "severity": "high",
+          "count": 7,
+          "samples": [
+            "src/pages/FolderToM4b.tsx:45",
+            "src/pages/M4bChapters.tsx:6",
+            "src/pages/SingleManifest.tsx:15"
+          ]
+        },
+        {
+          "risk": "dynamic-regex",
+          "severity": "high",
+          "count": 2,
+          "samples": [
+            "src/pages/Chapters.tsx:35",
+            "src/pages/Epub.tsx:126"
+          ]
+        },
+        {
+          "risk": "regex-syntax",
+          "severity": "high",
+          "count": 1,
+          "samples": [
+            "src/pages/Epub.tsx:64"
+          ]
+        },
+        {
+          "risk": "async",
+          "severity": "medium",
+          "count": 77,
+          "samples": [
+            "src/pages/Chapters.tsx:41",
+            "src/pages/Chapters.tsx:49",
+            "src/pages/Epub.tsx:47"
+          ]
+        },
+        {
+          "risk": "dynamic-typing",
+          "severity": "medium",
+          "count": 24,
+          "samples": [
+            "src/pages/Chapters.tsx:45",
+            "src/pages/Epub.tsx:37",
+            "src/pages/Epub.tsx:60"
+          ]
+        },
+        {
+          "risk": "callbacks",
+          "severity": "medium",
+          "count": 3,
+          "samples": [
+            "src/pages/Dashboard.tsx:14",
+            "src/pages/Mp3ToM4b.tsx:17",
+            "src/pages/Mp3ToM4b.tsx:33"
+          ]
+        },
+        {
+          "risk": "ordered-collections",
+          "severity": "medium",
+          "count": 2,
+          "samples": [
+            "src/pages/Chapters.tsx:24",
+            "src/pages/Metadata.tsx:30"
+          ]
+        },
+        {
+          "risk": "exceptions",
+          "severity": "low",
+          "count": 18,
+          "samples": [
+            "src/pages/Chapters.tsx:35",
+            "src/pages/Chapters.tsx:46",
+            "src/pages/Chapters.tsx:48"
+          ]
+        },
+        {
+          "risk": "number-semantics",
+          "severity": "low",
+          "count": 3,
+          "samples": [
+            "src/pages/Metadata.tsx:31",
+            "src/pages/Mp3ToM4b.tsx:122",
+            "src/pages/Settings.tsx:20"
+          ]
+        },
+        {
+          "risk": "clock-and-random",
+          "severity": "low",
+          "count": 2,
+          "samples": [
+            "src/pages/History.tsx:5",
+            "src/pages/Jobs.tsx:5"
+          ]
+        },
+        {
+          "risk": "json",
+          "severity": "low",
+          "count": 1,
+          "samples": [
+            "src/pages/M4bChapters.tsx:60"
+          ]
+        }
+      ],
+      "internal_deps": [
+        "src/components/",
+        "src/components/ui/",
+        "src/lib/"
+      ],
+      "workspace_deps": [],
+      "external_deps": [],
+      "direct_tests": 0,
+      "fan_in": 1,
+      "density": 0.9,
+      "priority": 20,
+      "exports": 0,
+      "bridgeable": 0,
+      "notes": [
+        "UI code: keep in the original language."
+      ]
+    }
+  ],
+  "start_here": [
+    "packages/npm-cli/electron/ipc/",
+    "electron/ipc/",
+    "src/lib/"
+  ],
+  "dependencies": [
+    {
+      "name": "electron",
+      "used_by": 2,
+      "crates": null,
+      "fit": "unknown",
+      "note": ""
+    },
+    {
+      "name": "@ffmpeg/core?url",
+      "used_by": 1,
+      "crates": null,
+      "fit": "unknown",
+      "note": ""
+    },
+    {
+      "name": "clsx",
+      "used_by": 1,
+      "crates": null,
+      "fit": "unknown",
+      "note": ""
+    },
+    {
+      "name": "cuelume",
+      "used_by": 1,
+      "crates": null,
+      "fit": "unknown",
+      "note": ""
+    },
+    {
+      "name": "music-metadata",
+      "used_by": 1,
+      "crates": null,
+      "fit": "unknown",
+      "note": ""
+    },
+    {
+      "name": "tailwind-merge",
+      "used_by": 1,
+      "crates": null,
+      "fit": "unknown",
+      "note": ""
+    },
+    {
+      "name": "zustand",
+      "used_by": 1,
+      "crates": null,
+      "fit": "unknown",
+      "note": ""
+    },
+    {
+      "name": "@ffmpeg/core",
+      "used_by": 1,
+      "crates": "ffmpeg-next",
+      "fit": "partial",
+      "note": "Binds the C libraries. For pure Rust, remade-ffmpeg covers a subset of codecs (and has an ffmpeg-compatible CLI): check its codec table."
+    },
+    {
+      "name": "@ffmpeg/ffmpeg",
+      "used_by": 1,
+      "crates": "ffmpeg-next",
+      "fit": "partial",
+      "note": "Binds the C libraries. For pure Rust, remade-ffmpeg covers a subset of codecs (and has an ffmpeg-compatible CLI): check its codec table."
+    },
+    {
+      "name": "commander",
+      "used_by": 2,
+      "crates": "clap",
+      "fit": "good",
+      "note": ""
+    }
+  ]
+}
